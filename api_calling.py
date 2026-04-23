@@ -35,13 +35,19 @@ def audio_generator(text):
     return audio_buffer
 
 def quiz_generator(images, difficulty):
-    prompt = f"""Generate 3 quizzes based on the difficulty {difficulty}.
-    Make sure to add markdown to differentiate the options.
-    Add correct options bellow"""
+    prompt = f"""
+        Generate 3 MCQ quizzes based on the images.
+        Difficulty: {difficulty}
+        Format in markdown.
+        For each quiz:
+        - Write the question
+        - Give 4 options: A, B, C, D
+        - Then write the correct answer below
+        """
     
     response = client.models.generate_content(
         model = "gemini-3-flash-preview",
-        contents = [images, prompt]
+        contents = [prompt, *images] if isinstance(images, list) else [prompt, images],
     )
     
     return response.text
