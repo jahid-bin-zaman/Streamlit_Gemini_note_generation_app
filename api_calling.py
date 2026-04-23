@@ -45,5 +45,3 @@ def quiz_generator(images, difficulty):
     )
     
     return response.text
-    
-    

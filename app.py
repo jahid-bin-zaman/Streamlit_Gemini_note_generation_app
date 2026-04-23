@@ -6,12 +6,13 @@ from PIL import Image
 
 from google.genai import errors
 
-# Title
+# -------------------------------------- Title -------------------------------
 
 st.title("Note Summary and Quiz Generator", anchor=False)
 st.markdown("Upload up to 3 images to generate Note Summary and Quizzes")
 st.divider()
 
+# ------------------------------- working with sidebar -------------------------------------
 
 with st.sidebar:
     st.header("Controls")
@@ -53,6 +54,8 @@ with st.sidebar:
     pressed = st.button("Click to Initiate", type="primary")
     
 
+# ------------------------------------ working with main part -----------------------------------
+
 if pressed:
     if not images:
         st.error("You must upload a image")
@@ -63,7 +66,8 @@ if pressed:
     
     if images and difficulty:
         
-        # Note Generation
+        # ---------------------Note Generation----------------------
+        
         with st.container(border=True):
             st.subheader("Your note", anchor=False)
             
@@ -78,9 +82,9 @@ if pressed:
                     st.error(f"An unexpected error occurred: {e}")
             
         
-        # Audio Transcript Generation
+        # ---------------------------Audio Transcript Generation------------------------------
         
-        # clearing the markdown
+        # cleaning the markdown
         generated_notes = generated_notes.replace('#', '')
         generated_notes = generated_notes.replace('$', '')
         generated_notes = generated_notes.replace('*', '')
@@ -100,9 +104,10 @@ if pressed:
                     st.error(f"An unexpected error occured: {e}")
                     
         
-        # Quiz Generation
+        # -----------------------------------Quiz Generation-------------------------------------
+        
         with st.container(border=True):
-            with st.spinner("Generating audio"):
+            with st.spinner("Generating Quiz"):
                 try:
                     st.markdown(quiz_generator(pil_images, difficulty))
                 except errors.ServerError as e:
